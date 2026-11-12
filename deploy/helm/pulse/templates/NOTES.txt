@@ -1,0 +1,17 @@
+Pulse Tracker {{ .Chart.AppVersion }} has been deployed as release "{{ .Release.Name }}".
+
+{{- if .Values.ingress.enabled }}
+
+Application URL:
+  http{{ if .Values.ingress.tls.enabled }}s{{ end }}://{{ .Values.ingress.host }}/
+Swagger OpenAPI:
+  http{{ if .Values.ingress.tls.enabled }}s{{ end }}://{{ .Values.ingress.host }}/api/docs
+{{- else }}
+
+Port-forward the frontend:
+  kubectl -n {{ .Release.Namespace }} port-forward svc/{{ include "pulse.fullname" . }}-frontend 8080:80
+  then open http://localhost:8080
+{{- end }}
+
+Run the smoke tests:
+  helm test {{ .Release.Name }} -n {{ .Release.Namespace }}

@@ -1,0 +1,9 @@
+apiVersion: v2
+name: pulse
+description: Pulse Tracker — REST API de suivi de tickets (React + TypeScript + FastAPI)
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+keywords: [rest-api, issue-tracker, fastapi, react, typescript]
+maintainers:
+  - name: Zakaria Korchi

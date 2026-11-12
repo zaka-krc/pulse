@@ -1,0 +1,78 @@
+nameOverride: ""
+fullnameOverride: ""
+imagePullSecrets: []
+
+backend:
+  image:
+    repository: registry.gitlab.com/your-group/pulse/backend
+    tag: ""
+    pullPolicy: IfNotPresent
+  replicaCount: 2
+  resources:
+    requests: { cpu: 100m, memory: 128Mi }
+    limits: { memory: 256Mi }
+  autoscaling:
+    enabled: false
+    minReplicas: 2
+    maxReplicas: 6
+    targetCPUUtilizationPercentage: 70
+  podDisruptionBudget:
+    enabled: true
+    minAvailable: 1
+
+frontend:
+  image:
+    repository: registry.gitlab.com/your-group/pulse/frontend
+    tag: ""
+    pullPolicy: IfNotPresent
+  replicaCount: 2
+  resources:
+    requests: { cpu: 25m, memory: 32Mi }
+    limits: { memory: 64Mi }
+
+config:
+  environment: production
+  seedDemo: false
+  corsOrigins: []
+
+secrets:
+  existingSecret: ""
+
+postgresql:
+  enabled: true
+  image: postgres:16-alpine
+  auth:
+    username: pulse
+    database: pulse
+    password: ""
+  persistence:
+    size: 1Gi
+    storageClass: ""
+  resources:
+    requests: { cpu: 100m, memory: 256Mi }
+    limits: { memory: 512Mi }
+
+externalDatabase:
+  url: ""
+
+ingress:
+  enabled: true
+  className: nginx
+  host: pulse.local
+  annotations: {}
+  tls:
+    enabled: false
+    secretName: pulse-tls
+
+podSecurityContext:
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
+containerSecurityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop: ["ALL"]
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

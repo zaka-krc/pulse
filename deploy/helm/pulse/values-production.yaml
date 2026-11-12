@@ -1,0 +1,20 @@
+# Production overrides — used by the `deploy:production` GitLab job.
+backend:
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 6
+config:
+  environment: production
+  corsOrigins: ["https://pulse.example.com"]
+secrets:
+  existingSecret: pulse-secrets   # managed outside the chart (e.g. External Secrets)
+postgresql:
+  enabled: false                   # managed database in production
+ingress:
+  host: pulse.example.com
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+  tls:
+    enabled: true
+    secretName: pulse-tls

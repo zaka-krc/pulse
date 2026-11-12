@@ -1,0 +1,12 @@
+# Staging overrides — used by the `deploy:staging` GitLab job.
+backend:
+  replicaCount: 1
+  podDisruptionBudget:
+    enabled: false
+frontend:
+  replicaCount: 1
+config:
+  environment: staging
+  seedDemo: true
+ingress:
+  host: pulse-staging.example.com
